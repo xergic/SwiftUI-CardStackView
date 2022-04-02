@@ -25,7 +25,7 @@ struct CardView<Direction, Content: View>: View {
     GeometryReader { geometry in
       self.content(self.swipeDirection(geometry))
         .offset(self.translation)
-        .rotationEffect(self.rotation(geometry))
+        .rotationEffect(self.configuration.rotate ? self.rotation(geometry) : Angle(degrees: 0))
         .simultaneousGesture(self.isOnTop ? self.dragGesture(geometry) : nil)
     }
     .transition(transition)
@@ -34,10 +34,20 @@ struct CardView<Direction, Content: View>: View {
   private func dragGesture(_ geometry: GeometryProxy) -> some Gesture {
     DragGesture()
       .onChanged { value in
-        self.translation = value.translation
+        if configuration.onlyHorizontal {
+          let translation = CGSize(width: value.translation.width, height: 0)
+          self.translation = translation
+        } else {
+          self.translation = value.translation
+        }
       }
       .onEnded { value in
-        self.translation = value.translation
+        if configuration.onlyHorizontal {
+          let translation = CGSize(width: value.translation.width, height: 0)
+          self.translation = translation
+        } else {
+            self.translation = value.translation
+        }
         if let direction = self.swipeDirection(geometry) {
           withAnimation(self.configuration.animation) { self.onSwipe(direction) }
         } else {

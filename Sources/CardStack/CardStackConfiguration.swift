@@ -9,19 +9,25 @@ public struct CardStackConfiguration: EnvironmentKey {
   let cardOffset: CGFloat
   let cardScale: CGFloat
   let animation: Animation
+  let rotate: Bool
+  let onlyHorizontal: Bool
 
   public init(
     maxVisibleCards: Int = 5,
     swipeThreshold: Double = 0.5,
     cardOffset: CGFloat = 10,
     cardScale: CGFloat = 0.1,
-    animation: Animation = .default
+    animation: Animation = .default,
+    rotate: Bool = true,
+    onlyHorizontal: Bool = false
   ) {
     self.maxVisibleCards = maxVisibleCards
     self.swipeThreshold = swipeThreshold
     self.cardOffset = cardOffset
     self.cardScale = cardScale
     self.animation = animation
+    self.rotate = rotate
+    self.onlyHorizontal = onlyHorizontal
   }
 }
 
