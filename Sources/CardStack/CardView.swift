@@ -32,7 +32,7 @@ struct CardView<Direction, Content: View>: View {
   }
 
   private func dragGesture(_ geometry: GeometryProxy) -> some Gesture {
-    DragGesture()
+    DragGesture(minimumDistance: self.configuration.swipeThreshold)
       .onChanged { value in
         if configuration.onlyHorizontal {
           let translation = CGSize(width: value.translation.width, height: 0)
